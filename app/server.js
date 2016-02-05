@@ -22,7 +22,13 @@ app.use(session({
   store: sessionStore
 }));
 
-app.use(ssoClient.ssoSession);
+app.use(ssoClient({
+  identityProvider: {
+    authUrl: 'http://localhost:3001/auth?target=${TARGET}',
+    getIdUrl: 'http://localhost:3001/id.json/${SSO_TOKEN}'
+  },
+  appTarget: 'http://localhost:3010'
+}));
 
 app.get('/', test.home);
 
